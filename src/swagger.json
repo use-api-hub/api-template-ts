@@ -1,0 +1,296 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Monster Hunter Wild API",
+    "version": "1.0.0",
+    "description": "API to get information about monsters and their weaknesses in Monster Hunter Wild"
+  },
+  "servers": [
+    {
+      "url": "https://38db-2800-810-468-e16-5cb2-b781-5b95-182e.ngrok-free.app",
+      "description": "Ngrok Server"
+    },
+    {
+      "url": "{protocol}://{hostname}:{port}",
+      "description": "Local Development Server",
+      "variables": {
+        "protocol": {
+          "default": "http",
+          "enum": ["http", "https"]
+        },
+        "hostname": {
+          "default": "localhost"
+        },
+        "port": {
+          "default": "3005"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/api/monsters": {
+      "get": {
+        "tags": ["Monsters"],
+        "summary": "Get all monsters",
+        "responses": {
+          "200": {
+            "description": "List of all monsters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Monster"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/monsters/{id}": {
+      "get": {
+        "tags": ["Monsters"],
+        "summary": "Get a monster by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Monster details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Monster"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Monster not found"
+          }
+        }
+      }
+    },
+    "/api/monsters/type/{type}": {
+      "get": {
+        "tags": ["Monsters"],
+        "summary": "Get monsters by type",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of monsters of specified type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Monster"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No monsters found"
+          }
+        }
+      }
+    },
+    "/api/monsters/{id}/weaknesses": {
+      "get": {
+        "tags": ["Monsters"],
+        "summary": "Get monster weaknesses",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Monster weaknesses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeaknessInfo"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Monster not found"
+          }
+        }
+      }
+    },
+    "/readme": {
+      "get": {
+        "tags": ["Documentation"],
+        "summary": "Get API documentation",
+        "description": "Returns the API documentation in markdown format",
+        "responses": {
+          "200": {
+            "description": "API documentation in markdown format",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error loading documentation"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key"
+      }
+    },
+    "schemas": {
+      "WeaknessInfo": {
+        "type": "object",
+        "properties": {
+          "element": {
+            "type": "string"
+          },
+          "stars": {
+            "type": "integer"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "StatusEffect": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "effectiveness": {
+            "type": "integer"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "BodyPart": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "weakness": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WeaknessInfo"
+            }
+          },
+          "breakable": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Monster": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "habitat": {
+            "type": "string"
+          },
+          "size_range": {
+            "type": "object",
+            "properties": {
+              "min": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              }
+            }
+          },
+          "weaknesses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WeaknessInfo"
+            }
+          },
+          "status_effects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StatusEffect"
+            }
+          },
+          "body_parts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BodyPart"
+            }
+          },
+          "rewards": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tips": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ]
+}

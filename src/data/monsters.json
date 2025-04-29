@@ -1,0 +1,51 @@
+[
+  {
+    "id": "rathalos",
+    "name": "Rathalos",
+    "type": "Flying Wyvern",
+    "description": "The King of the Skies, known for its flying ability and fire attacks",
+    "habitat": "Ancient Forest",
+    "size_range": {
+      "min": 1700.52,
+      "max": 2575.23
+    },
+    "weaknesses": [
+      {
+        "element": "Dragon",
+        "stars": 3,
+        "description": "Very effective against its scales"
+      },
+      {
+        "element": "Flash",
+        "stars": 3,
+        "description": "Can knock it down while flying"
+      }
+    ],
+    "status_effects": [
+      {
+        "name": "Poison",
+        "effectiveness": 2,
+        "description": "Moderately susceptible to poison"
+      }
+    ],
+    "body_parts": [
+      {
+        "name": "Head",
+        "weakness": [
+          {
+            "element": "Dragon",
+            "stars": 3,
+            "description": "Main weak point"
+          }
+        ],
+        "breakable": true
+      }
+    ],
+    "rewards": ["Rathalos Scale+", "Rathalos Wing", "Rathalos Plate"],
+    "tips": [
+      "Use Flash Pods when it's flying",
+      "Target its wings to knock it down",
+      "Avoid its fire attacks"
+    ]
+  }
+]
