@@ -55,12 +55,22 @@ The API will be available at `http://localhost:3005`. Nodemon will automatically
 
 ## Authentication
 
-Requests to the API endpoints (prefixed with `/api`) require an API key to be included in the request headers.
+Requests to the API endpoints (prefixed with `/api`) require a Bearer token to be included in the request headers.
 
-Use the `x-api-key` header to send your API key:
+Use the `Authorization` header with the Bearer scheme to send your token:
 
 ```
-x-api-key: YOUR_API_KEY
+Authorization: Bearer YOUR_TOKEN
 ```
 
-Replace `YOUR_API_KEY` with your actual API key. For development purposes, you can use the key `test_token` (defined in `src/middleware/apiKeyAuth.ts`).
+Replace `YOUR_TOKEN` with your actual API token. The valid tokens are configured through the `API_KEYS` environment variable.
+
+### Environment Variables
+
+Create a `.env` file in the root of the project with the following variables:
+
+```env
+API_KEYS=your_token_here,another_token_here
+```
+
+You can add multiple tokens by separating them with commas. For development purposes, you can use the example tokens provided in `.env.example`.
