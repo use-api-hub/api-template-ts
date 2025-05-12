@@ -48,3 +48,5 @@ app.listen(PORT, () => {
   console.log(`Swagger documentation available at ${DOMAIN}/api-docs`);
   console.log(`README documentation available at ${DOMAIN}/readme`);
 });
+
+export default app;
